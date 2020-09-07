@@ -1,5 +1,7 @@
 from django.urls import path
 
-urlpatterns = [
+from user import views
 
+urlpatterns = [
+    path('register/', views.signup, name='user_register'),
 ]
