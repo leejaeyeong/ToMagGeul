@@ -3,7 +3,7 @@ from django.utils import timezone
 
 from genre.models import Genre
 
-from user.models import TMAuthor
+from user.models import TMAuthor, TMUser
 
 class TMSeries(models.Model):
     series_id = models.AutoField(primary_key=True)
@@ -25,7 +25,7 @@ class TMText(models.Model):
     text_id = models.AutoField(primary_key=True)
     text_title = models.CharField(max_length=30)
     main_sentence = models.CharField(max_length=200, null=True, blank=True)
-    content = models.CharField(max_length=5000)
+    text_content = models.CharField(max_length=5000)
     text_genre =  models.ManyToManyField(Genre, related_name='text_genre')
     heart_num = models.PositiveIntegerField()     #공감 수
     comment_num = models.PositiveIntegerField()   #댓글 수
@@ -36,3 +36,13 @@ class TMText(models.Model):
 
     def __str__(self):
         return self.text_title
+
+class Comment(models.Model):
+    date_of_comment = models.DateField(default = timezone.now)
+    comment_content = models.CharField(max_length=100)
+    is_report = models.BooleanField(default=False)
+    tmtext = models.ForeignKey(TMText, on_delete=models.CASCADE)
+    tmuser = models.ForeignKey(TMUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.tmuser
