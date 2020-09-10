@@ -1,5 +1,19 @@
 <form method="POST" action="">
 {% csrf_token %}
 {{regi_form.as_p}}
+<div id="author", style="display:none;">
+    {{author_form.as_p}}
+</div>
 <input type="submit" value="회원가입">
 </form>
+
+<script type="text/javascript">
+function setDisplay(){
+    document.getElementById('id_is_author')
+    if($('input:checkbox[id=id_is_author]').is(':checked')){
+        $('#author').show();
+    }else{
+        $('#author').hide();
+    }
+}
+</script>
