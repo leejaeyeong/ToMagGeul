@@ -1,10 +1,11 @@
 from django.db import models
+from django.utils import timezone
 
 from genre.models import Genre
 
 from user.models import TMAuthor
 
-class TMseries(models.Model):
+class TMSeries(models.Model):
     series_id = models.AutoField(primary_key=True)
     series_title = models.CharField(max_length=30)
     introduce = models.CharField(max_length=1000, null=True, blank=True)
@@ -15,7 +16,8 @@ class TMseries(models.Model):
     heart_num_total = models.PositiveIntegerField()     #공감 수
     comment_num_total = models.PositiveIntegerField()   #댓글 수 종합
     views_num_total = models.PositiveIntegerField()
-    writer = models.ForeignKey(TMAuthor)
+    writer = models.ForeignKey(TMAuthor, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.series_title
+
