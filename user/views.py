@@ -11,7 +11,7 @@ def signup(request):
         # print(filled_form)
         if filled_form.is_valid():
             print('Valid!')
-        #     # filled_form.save()
-        #     return redirect('index')
+            filled_form.save()
+            return redirect('index')
 
     return render(request, 'signup.html', {'regi_form':regi_form, 'author_form':author_form})

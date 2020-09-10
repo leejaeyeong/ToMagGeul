@@ -133,7 +133,8 @@ class UserCreationForm(forms.ModelForm):
         label=_('Register Author'),
         widget=forms.CheckboxInput(
             attrs={
-                'onchange':"setDisplay()"
+                'onchange':"setDisplay()",
+                'required': 'False',
             }
         )
     )
@@ -148,8 +149,7 @@ class UserCreationForm(forms.ModelForm):
                     'date_of_birth',
                     'phone_number',
                     'address',
-                    'prefer_genre',
-                    'is_author',)
+                    'prefer_genre',)
 
     def clean_password2(self):
         # 두 비밀번호 입력 일치 확인

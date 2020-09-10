@@ -52,7 +52,7 @@ class TMAuthor(models.Model):
     introduce = models.CharField(max_length = 500, null=True, blank=True)
     page_link = models.CharField(max_length = 300, null=True, blank=True)
     sns_link = models.CharField(max_length = 300, null=True, blank=True)
-    portfolio = models.FileField(upload_to='portfolios')
+    portfolio = models.FileField(upload_to='portfolios',null=True, blank=True)
     opening_date = models.DateField(default = timezone.now)
     follower_num = models.PositiveIntegerField(default=0)
     tomag_num = models.PositiveIntegerField(default=0)
