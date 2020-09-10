@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from .managers import TMUserManager
 
@@ -8,13 +9,26 @@ from genre.models import Genre
 
 from decimal import Decimal
 
+
+    # default_error_messages = {
+    #     'invalid_choice': _('Value %(value)r is not a valid choice.'),
+    #     'null': _('This field cannot be null.'),
+    #     'blank': _('This field cannot be blank.'),
+    #     'unique': _('%(model_name)s with this %(field_label)s '
+    #                 'already exists.'),
+    #     # Translators: The 'lookup_type' is one of 'date', 'year' or 'month'.
+    #     # Eg: "Title must be unique for pub_date year"
+    #     'unique_for_date': _("%(field_label)s must be unique for "
+    #                          "%(date_field_label)s %(lookup_type)s."),
+    # }
+
 class TMUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length = 255, unique=True, primary_key=True)
-    nickname = models.CharField(max_length = 50, unique=True)
+    email = models.EmailField(max_length = 255, unique=True, primary_key=True, error_messages={'unique' : "이미 존재하는 이메일입니다."})
+    nickname = models.CharField(max_length = 50, unique=True, error_messages={'unique' : "이미 존재하는 닉네임입니다."})
     name = models.CharField(max_length = 30, default="username")
     date_of_birth = models.DateField(default = timezone.now)
-    phone_number = models.CharField(max_length = 11, default="010-1234-5678")
-    address = models.CharField(max_length = 200, null=True, blank=True)
+    phone_number = models.CharField(max_length = 13, default="010-1234-5678")
+    address = models.TextField(max_length = 200, null=True, blank=True)
     is_author = models.BooleanField(default=False)  #작가 등록 여부
     prefer_genre = models.ManyToManyField(Genre, related_name='prefer_users') #선호 장르
 
@@ -29,7 +43,7 @@ class TMUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['nickname']
 
     def __str__(self):
-        return self.nickname
+        return self.nickname + " " +self.email
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
@@ -48,14 +62,14 @@ class TMUser(AbstractBaseUser, PermissionsMixin):
         return self.is_superuser
 
 class TMAuthor(models.Model):
-    author_name = models.CharField(max_length = 50, unique=True)
-    introduce = models.CharField(max_length = 500, null=True, blank=True)
-    page_link = models.CharField(max_length = 300, null=True, blank=True)
-    sns_link = models.CharField(max_length = 300, null=True, blank=True)
+    author_name = models.CharField(verbose_name="작가명", max_length = 50, unique=True, error_messages={'unique' : "이미 존재하는 작가명입니다."})
+    introduce = models.TextField(max_length = 500, null=True, blank=True)
+    page_link = models.TextField(max_length = 300, null=True, blank=True)
+    sns_link = models.TextField(max_length = 300, null=True, blank=True)
     portfolio = models.FileField(upload_to='portfolios',null=True, blank=True)
     opening_date = models.DateField(default = timezone.now)
     follower_num = models.PositiveIntegerField(default=0)
-    tomag_num = models.PositiveIntegerField(default=0)
+    tomag_num = models.PositiveIntegerField(default=0)  
     user = models.OneToOneField(
         TMUser,
         on_delete=models.CASCADE,
