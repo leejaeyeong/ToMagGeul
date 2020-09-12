@@ -1,17 +1,31 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
 
 from .forms import UserCreationForm, AuthorCreationForm
 
 def signup(request):
-    regi_form = UserCreationForm()
+    user_form = UserCreationForm()
     author_form = AuthorCreationForm()
     if request.method == "POST":
-        filled_form = UserCreationForm(request.POST)
-        # print(filled_form)
-        if filled_form.is_valid():
-            print('Valid!')
-        #     # filled_form.save()
-        #     return redirect('index')
+        user_form = UserCreationForm(request.POST)
+        print(user_form)
+        if user_form.is_valid():
+            user = user_form.save(commit=False)
+            if user.is_author:
+                author_form = AuthorCreationForm(request.POST, request.FILES)
+                if author_form.is_valid():
+                    author = author_form.save(commit=False)
+                    user.save()
+                    author.user = user
+                    author.save()
 
-    return render(request, 'signup.html', {'regi_form':regi_form, 'author_form':author_form})
+                    return redirect('thank')
+            else:
+                user.save()
+                return redirect('thank')
+ 
+    return render(request, 'signup.html', {'regi_form':user_form, 'author_form':author_form})
+
+def thankyou(request):
+    return render(request, 'thankyou.html')

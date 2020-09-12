@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import TMSeries, TMText, Comment
+
+admin.site.register(TMSeries)
+admin.site.register(TMText)
+admin.site.register(Comment)

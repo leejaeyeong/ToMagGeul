@@ -1,19 +1,33 @@
-<form method="POST" action="">
-{% csrf_token %}
-{{regi_form.as_p}}
-<div id="author", style="display:none;">
-    {{author_form.as_p}}
-</div>
-<input type="submit" value="회원가입">
+<!doctype html>
+<html lang="ko-kr">
+
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<form method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+        {{regi_form.as_table}}
+    </table>
+
+    <div id="authorform"> </div>
+    
+    <input type="submit" value="회원가입">
 </form>
+
+<table class="dummy" style="display:none;">
+    {{author_form.as_table}}
+</table>
 
 <script type="text/javascript">
 function setDisplay(){
-    document.getElementById('id_is_author')
+    var authorform = $('.dummy').clone(true);
     if($('input:checkbox[id=id_is_author]').is(':checked')){
-        $('#author').show();
+        $('#authorform').append(authorform.removeClass('dummy').show());
     }else{
-        $('#author').hide();
+        $('#authorform').children().remove()
     }
 }
+setDisplay()
 </script>
+
+</html>
