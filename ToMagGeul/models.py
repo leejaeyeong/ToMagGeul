@@ -46,3 +46,35 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.tmuser
+
+class Delivery(models.Model):
+    tmuser = models.ForeignKey(TMUser, on_delete=models.CASCADE)
+    paid_subscription = models.BooleanField(default=False)
+    adress = models.CharField(max_length=200)
+    delivery_time = models.DateTimeField(default=timezone.now)
+    delivery_status = models.BooleanField(default=False)
+    delivery_copletion = models.PositiveIntegerField
+
+    def __str__(self):
+        return self.tmuser
+
+class Paid_subscription(models.Model):
+    tmuser = models.ForeignKey(TMUser, on_delete=models.CASCADE)
+    tmtext = models.ForeignKey(TMText, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(default=timezone.now)
+    use_points = models.PositiveIntegerField(default=0)
+    remaining_points = models.PositiveIntegerField(default=0)
+    payment = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.tmuser
+
+class Subscription(models.Model):
+    tmuser = models.ForeignKey(TMUser, on_delete=models.CASCADE)
+    tmtext = models.ForeignKey(TMText, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.tmuser
+
+
