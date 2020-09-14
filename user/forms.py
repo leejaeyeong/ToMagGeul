@@ -7,39 +7,10 @@ from .models import TMUser, TMAuthor
 from .managers import TMUserManager
 from genre.models import Genre
 
-class PhoneField(forms.MultiValueField):
-    def __init__(self, **kwargs):
-        # Define one message for all fields.
-        error_messages = {
-            'incomplete': 'Enter a country calling code and a phone number.',
-        }
-        # Or define a different message for each field.
-        fields = (
-            forms.CharField(
-                error_messages={'incomplete': 'Enter a country calling code.'},
-                validators=[RegexValidator(r'^[0-9]{2,4}$', 'Enter a valid country calling code.'),],
-                required=True,
-            ),
-            forms.CharField(
-                error_messages={'incomplete': 'Enter a phone number.'},
-                validators=[RegexValidator(r'^[0-9]{3,4}$', 'Enter a valid phone number.')],
-                required=True,
-            ),
-            forms.CharField(
-                validators=[RegexValidator(r'^[0-9]{,4}$', 'Enter a valid extension.')],
-                required=True,
-            ),
-        )
-        super().__init__(
-            error_messages=error_messages, fields=fields,
-            require_all_fields=False, **kwargs
-        )
-
 class UserCreationForm(forms.ModelForm):
     # 사용자 생성 폼
     email = forms.EmailField(
         label=_('Email'),
-        required=True,
         widget=forms.EmailInput(
             attrs={
                 'class': 'form-control',
@@ -47,7 +18,9 @@ class UserCreationForm(forms.ModelForm):
                 'required': 'True',
             }
         ),
-        max_length = 255
+        max_length = 255,
+        error_messages={'required': '이메일을 입력해 주세요.',
+                        'invalid' : '이미 사용중인 이메일입니다.'}
     )
     password1 = forms.CharField(
         label=_('Password'),
@@ -60,6 +33,7 @@ class UserCreationForm(forms.ModelForm):
         ),
         max_length = 30,
         min_length = 8,
+        # help_text='8~30 characters required'
     )
     password2 = forms.CharField(
         label=_('Password confirmation'),
@@ -75,7 +49,6 @@ class UserCreationForm(forms.ModelForm):
     )
     nickname = forms.CharField(
         label=_('Nickname'),
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -83,12 +56,12 @@ class UserCreationForm(forms.ModelForm):
                 'required': 'True',
             }
         ),
+        min_length = 2,
         max_length = 50
     )
 
     name = forms.CharField(
         label=_('Name'),
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -99,25 +72,34 @@ class UserCreationForm(forms.ModelForm):
         max_length = 30
     )
 
-    date_of_birth = forms.SplitDateTimeField(
+    date_of_birth = forms.DateField(
         label=_('Date of Birth'),
-        required=True,
-        widget=forms.DateInput(
+        widget=forms.SelectDateWidget(
             attrs={
                 'type' : 'date',
                 'class': 'form-control',
                 'required': 'True',
             },
-            format='%Y-%m-%d'
+            years=range(2020,1900,-1)
         ),
-        input_date_formats='%Y-%m-%d'
     )
 
-    phone_number = PhoneField()
+    phone_number = forms.RegexField(
+        label=_('Phone Number'),
+        regex=r'^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$',
+        widget=forms.TextInput(
+            attrs={
+                'type' : 'text',
+                'class': 'form-control',
+                'placeholder': _('Phone Number'),
+            }
+        ),
+        max_length = 13
+    )
 
     address = forms.CharField(
         label=_('Address'),
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -131,9 +113,10 @@ class UserCreationForm(forms.ModelForm):
 
     is_author = forms.BooleanField(
         label=_('Register Author'),
+        required=False,
         widget=forms.CheckboxInput(
             attrs={
-                'onchange':"setDisplay()"
+                'onchange':"setDisplay()",
             }
         )
     )
@@ -149,7 +132,7 @@ class UserCreationForm(forms.ModelForm):
                     'phone_number',
                     'address',
                     'prefer_genre',
-                    'is_author',)
+                    'is_author')
 
     def clean_password2(self):
         # 두 비밀번호 입력 일치 확인
@@ -170,8 +153,8 @@ class UserCreationForm(forms.ModelForm):
 
 
 class AuthorCreationForm(forms.ModelForm):
-    # 작가 생성 폼
 
+    # 작가 생성 폼
     class Meta:
         model = TMAuthor
         fields = (  'author_name', 
