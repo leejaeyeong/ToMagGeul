@@ -29,3 +29,6 @@ def signup(request):
 
 def thankyou(request):
     return render(request, 'thankyou.html')
+
+def signin(request):
+    return render(request, 'signin.html')

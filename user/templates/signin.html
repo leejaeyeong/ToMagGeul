@@ -1,1 +1,135 @@
-<h1>hi</h1>
+<!doctype html>
+<html lang="ko-kr">
+
+<style>
+    .left{
+        text-align : left;
+        align-content: center;
+    }
+    .center{
+            text-align : center;
+            align-content: center;
+            width:100%;
+        }   
+        
+    .TopHeader{
+        width:100%;
+        height:200px;
+        background:white;
+        /* display:flex; */
+        text-align:left;
+    }
+
+    .blank{
+    width : 100px;
+    height : 35px;
+    }
+
+    .smallblank{
+    width : 10px;
+    height : 35px; 
+    }   
+
+
+    #topMenu {    
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display:inline-block;        
+        height: 70px; 
+        width: 100%; 
+        border-bottom: 0.1px solid #979797;
+    }
+
+    #topMenu ul li {                    
+        list-style: none;           
+        color: white;               
+        background-color: white;  
+        float: left;                
+        line-height: 35px;   
+        height: 35px;  
+        vertical-align: middle;     
+        text-align: center;         
+    }
+        
+    #topMenu .menuLink {                
+        text-decoration:none;       
+        color: black;               
+        display: block;             
+        width: 60px;             
+        font-size: 16px;           
+        font-weight: bold;           
+        font-family: "Trebuchet MS", Dotum, Arial; 
+    }
+        
+    #topMenu .menuLink:hover {            
+        color: white;                   
+        background-color: #4d4d4d;   
+    }
+
+    #signup_button{
+        background-color:#F7F7F7; 
+        border: 2px solid #979797;
+        border-radius: 2;
+        color: #979797;
+        width: 250px;
+        height: 30px;
+        
+    }
+    
+</style>
+
+<header class="TopHeader">
+    <nav id="topMenu">
+        <ul>
+            <li class ="blank"></li>
+            <li><a class="menuLink" href="#">토막글</a></li>
+            <li class ="blank"></li>
+            <li><a class="menuLink" href="#">홈</a></li>
+            <li><a class="menuLink" href="#" style="color: #606060;">분야별</a></li>
+            <li><a class="menuLink" href="#" style="color: #606060;">인기작품</a></li>
+            <li class ="blank"></li>
+            <li class ="blank"></li>
+            <li class ="blank"></li>
+            <li class ="blank"></li>
+            <li class ="blank"></li>
+            <li class ="blank"></li>
+            <img src="img/search.png" alt="없음">
+            <li><input type = "text" name = "검색" size="20" maxlength="100"  height="200" value="검색" ></li>
+            <li class ="smallblank"></li>
+            <!-- <li class="signin-header"> 검색 </li> -->
+            <li><input type="button" name="button1" value="로그인"></li>
+            <li class ="smallblank"></li>
+            <li><input type="button" name="button2" value="회원가입"></li>
+            <li class ="blank"></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <body class="center">
+        <ui class="center">
+            <h1>토막글 로그인</h1>
+            <h5 style="color: #606060;">토막글에서 다양한 글을 만나봐요!</h5>
+        </ui>
+        <img src="./img/search.png" alt="없음">
+        <h3 style="color: #606060;">E-mail</h3>
+        <input id= "signup_button" type = "text" name = "email" maxlength= 100; value="tomaggeul@gmail.com"  size= 34 >
+        <h3 style="color: #606060;">Password</h3>
+        <input id= "signup_button" type = "text" name = "password" size="34" maxlength="100" value="********"  >
+        <h5>계정이 없으세요?</h5>
+        <h5>비밀번호 재설정 * 계정찾기</h5>
+        <h6> SNS로 로그인 및 회원가입 시 토막글의 이용약관과 </h6>
+        <h6>개인정보처리방침에 동의한 것으로 간주합니다. </h6>
+    </body>
+  </main>
+
+
+
+</html>
+
+
+
+
+
