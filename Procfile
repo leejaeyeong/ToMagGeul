@@ -1,0 +1,1 @@
+web: gunicorn tomagproject.wsgi --log-file -
