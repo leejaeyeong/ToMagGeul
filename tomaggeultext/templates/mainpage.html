@@ -101,7 +101,13 @@
         <p>제목 : {{tomaggeul.text_title}}<br></p>
 
         <P>{{tomaggeul.main_sentence}}</P>
-
+        
+        <P>
+        {% for genre in tomaggeul.text_genre.all %}
+        {{genre}}
+        {% endfor %}
+        </P>
+        
         <P>작가 : {{tomaggeul.writer}}</P>
       </div>
 

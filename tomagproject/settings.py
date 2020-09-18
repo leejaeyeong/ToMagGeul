@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'user.apps.UserConfig',             #회원
-    'tomaggeul.apps.TomaggeulConfig',   #토막글
+    'tomaggeultext.apps.TomaggeultextConfig',   #토막글
     'subscribe.apps.SubscribeConfig',   #구독
     'genre.apps.GenreConfig',           #장르
     'report.apps.ReportConfig',         #신고
