@@ -47,7 +47,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.tmuser.nickname + ':' + self.comment_content
 
-class Paid_subscription(models.Model):
+""" class Paid_subscription(models.Model):
     tmuser = models.ForeignKey(TMUser, on_delete=models.CASCADE)
     tmseries = models.ForeignKey(TMSeries, on_delete=models.CASCADE)
     start_time = models.DateTimeField(default=timezone.now)
@@ -75,4 +75,4 @@ class Delivery(models.Model):
     delivery_copletion = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.tmuser.nickname + str(self.delivery_time)
+        return self.tmuser.nickname + str(self.delivery_time) """
